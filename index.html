@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FanMangaHub - Read & Upload Fanmade Manga</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">📚 FanMangaHub</h1>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('browse')">Browse</a>
+                <a href="#" onclick="showPage('upload')" id="uploadLink" style="display:none;">Upload</a>
+                <button id="premiumBtn" onclick="showPage('premium')" style="display:none;" class="premium-btn">⭐ Buy Premium</button>
+                <span id="userBadge" style="display:none;"></span>
+                <button id="authBtn" onclick="showPage('auth')">Sign In</button>
+                <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Page -->
+    <div id="authPage" class="page">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('signin')">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+            
+            <div id="signinForm" class="auth-form">
+                <h2>Welcome Back!</h2>
+                <input type="email" id="signinEmail" placeholder="Email" required>
+                <input type="password" id="signinPassword" placeholder="Password" required>
+                <button onclick="signIn()">Sign In</button>
+            </div>
+            
+            <div id="signupForm" class="auth-form" style="display:none;">
+                <h2>Create Account</h2>
+                <input type="text" id="signupUsername" placeholder="Username" required>
+                <input type="email" id="signupEmail" placeholder="Email" required>
+                <input type="password" id="signupPassword" placeholder="Password" required>
+                <button onclick="signUp()">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <div class="hero">
+            <h1>Welcome to FanMangaHub</h1>
+            <p>Discover and share amazing fanmade manga creations!</p>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search manga..." onkeyup="searchManga()">
+                <button onclick="searchManga()">🔍 Search</button>
+            </div>
+        </div>
+        
+        <div class="manga-grid" id="mangaGrid">
+            <!-- Manga cards will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Browse Page -->
+    <div id="browsePage" class="page">
+        <h2>Browse All Manga</h2>
+        <div class="manga-grid" id="browseGrid">
+            <!-- All manga will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Upload Page -->
+    <div id="uploadPage" class="page">
+        <div class="upload-container">
+            <h2>Upload Your Manga</h2>
+            <form id="uploadForm" onsubmit="uploadManga(event)">
+                <input type="text" id="mangaTitle" placeholder="Manga Title" required>
+                <textarea id="mangaDescription" placeholder="Description" rows="4" required></textarea>
+                <input type="text" id="mangaAuthor" placeholder="Author Name" required>
+                <input type="text" id="mangaTags" placeholder="Tags (comma separated)">
+                <label for="mangaPages">Upload Pages (Images):</label>
+                <input type="file" id="mangaPages" multiple accept="image/*" required>
+                <button type="submit">Upload Manga</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reader Page -->
+    <div id="readerPage" class="page">
+        <div class="reader-container">
+            <div class="reader-header">
+                <button onclick="showPage('home')">← Back</button>
+                <h2 id="readerTitle">Manga Title</h2>
+                <button onclick="downloadManga()" id="downloadBtn">⬇ Download</button>
+            </div>
+            
+            <div id="limitWarning" class="limit-warning" style="display:none;">
+                <p>⚠️ You've reached your daily limit of 3 manga reads!</p>
+                <p>Time until reset: <span id="resetTimer"></span></p>
+                <button onclick="showPage('premium')" class="premium-btn">⭐ Get Premium for Unlimited Reads</button>
+            </div>
+            
+            <div class="reader-content">
+                <img id="currentPage" src="" alt="Manga Page">
+            </div>
+            
+            <div class="reader-controls">
+                <button onclick="previousPage()">← Previous</button>
+                <span id="pageInfo">Page 1 / 1</span>
+                <button onclick="nextPage()">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+    <!-- Premium Page -->
+    <div id="premiumPage" class="page">
+        <div class="premium-container">
+            <div class="premium-header">
+                <h1>⭐ FanMangaHub Premium</h1>
+                <p>Unlock unlimited manga reading and exclusive features!</p>
+            </div>
+            
+            <div class="premium-features">
+                <div class="feature-card">
+                    <h3>📚 Unlimited Reading</h3>
+                    <p>Read as many manga as you want, no daily limits!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⬇️ Download Anywhere</h3>
+                    <p>Download your favorite manga to read offline</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⭐ Premium Badge</h3>
+                    <p>Show off your premium status with a special badge</p>
+                </div>
+            </div>
+            
+            <div class="premium-activate">
+                <h2>Activate Premium</h2>
+                <p>To get premium, contact us and receive your one-time activation code:</p>
+                <div class="contact-info">
+                    <p id="contactInfo">Contact information will be provided soon</p>
+                </div>
+                <div class="code-input-section">
+                    <h3>Have a premium code?</h3>
+                    <input type="text" id="premiumCode" placeholder="Enter your premium code" />
+                    <button onclick="activatePremium()">Activate Premium</button>
+                </div>
+            </div>
+            
+            <div id="readLimitInfo" class="read-limit-info">
+                <p>Free users: <span id="readsLeft">3</span> manga reads remaining today</p>
+                <p>Resets at: <span id="nextReset"></span></p>
+            </div>
+        </div>
+    </div>
+
